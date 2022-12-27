@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Movie_Magic.Models;
+using Movie_Magic.Repositories;
 using System.Linq;
 using System.Net;
 
@@ -9,31 +10,25 @@ namespace Movie_Magic.Controllers;
 [Route("[controller]")]
 public class MoviesController : ControllerBase
 {
-    private static readonly Movie[] mockMovies = new[]
-    {
-        new Movie { MovieId = 1, Name = "Cars", Rating = 4},
-        new Movie { MovieId = 2, Name = "Jurassic Park", Rating = 5},
-        new Movie { MovieId = 3, Name = "Back to the Future", Rating = 5}        
-    };
-
     private readonly ILogger<MoviesController> _logger;
-
-    public MoviesController(ILogger<MoviesController> logger)
+    private readonly IMovieRepository _movieRepository;
+    public MoviesController(ILogger<MoviesController> logger, IMovieRepository repo)
     {
         _logger = logger;
+        _movieRepository = repo;
     }
 
     [HttpGet]
     public IEnumerable<Movie> GetMovies()
     {
-        return mockMovies;
+        return _movieRepository.GetAllMovies();
     }
 
     [HttpGet]
     [Route("{movieId:int}")]
     public Movie? GetMovieById(int movieId) 
     {
-        var movie = mockMovies.FirstOrDefault(m => m.MovieId == movieId);
+        var movie = _movieRepository.GetMovieById(movieId);
         if (movie == null) {
             Response.StatusCode = (int) HttpStatusCode.NotFound;
             return null;
