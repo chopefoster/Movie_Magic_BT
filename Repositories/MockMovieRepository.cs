@@ -3,7 +3,7 @@ using System.Linq;
 
 using Movie_Magic.Models;
 
-namespace Movie_Magic.Repositories;
+namespace Movie_Magic.Repositories
 {
     public class MockMovieRepository : IMovieRepository
 {

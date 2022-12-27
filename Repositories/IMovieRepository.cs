@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Movie_Magic.Models;
 
-namespace Movie_Magic.Repositories;
-
+namespace Movie_Magic.Repositories
 {
     public interface IMovieRepository
     {
